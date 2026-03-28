@@ -7,6 +7,23 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* Password Lock Screen */
+#lock-screen{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:linear-gradient(135deg,#1a2332 0%,#1A2540 50%,#0F1829 100%);display:flex;align-items:center;justify-content:center;font-family:'Noto Sans JP',sans-serif}
+#lock-screen.hidden{display:none}
+.lock-box{text-align:center;color:#fff;max-width:380px;padding:40px}
+.lock-box .lock-icon{font-size:3rem;margin-bottom:20px;opacity:.7}
+.lock-box h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;letter-spacing:1px}
+.lock-box .lock-sub{color:rgba(255,255,255,.5);font-size:.82rem;margin-bottom:28px}
+.lock-box input{width:100%;padding:14px 18px;border:1px solid rgba(184,145,42,.3);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-size:1rem;text-align:center;letter-spacing:4px;outline:none;transition:border .2s}
+.lock-box input:focus{border-color:#B8912A}
+.lock-box input::placeholder{color:rgba(255,255,255,.25);letter-spacing:1px}
+.lock-box button{margin-top:16px;width:100%;padding:14px;border:none;border-radius:10px;background:#B8912A;color:#0F1829;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s}
+.lock-box button:hover{background:#D4A843}
+.lock-box .lock-error{color:#FF8A80;font-size:.78rem;margin-top:12px;min-height:20px}
+.lock-box .lock-brand{color:rgba(255,255,255,.25);font-size:.68rem;margin-top:32px;letter-spacing:1px}
+#report-content{display:none}
+</style>
+<style>
 :root {
   --navy: #1A2540;
   --navy-light: #243352;
@@ -570,6 +587,21 @@ body {
 </style>
 </head>
 <body>
+
+<!-- Password Lock Screen -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <h2>M&Co. JAPAN PTY LTD</h2>
+    <div class="lock-sub">月次財務分析レポート（社外秘）<br>閲覧にはパスワードが必要です</div>
+    <input type="password" id="pw-input" placeholder="パスワードを入力" autofocus>
+    <button onclick="checkPw()">閲覧する</button>
+    <div class="lock-error" id="pw-error"></div>
+    <div class="lock-brand">Atlas Financial Advisory</div>
+  </div>
+</div>
+
+<div id="report-content">
 
 <!-- Header -->
 <div class="header">
@@ -1755,6 +1787,16 @@ new Chart(document.getElementById('bepChart'), {
     }
   }
 });
+</script>
+</div><!-- /report-content -->
+
+<script>
+// SHA-256 hash of "mco"
+var HASH='bc28fa7837894ffdaa9f37f53cb5c51ed545c5bd09f6267b1f43672007c9b876';
+async function sha256(s){var e=new TextEncoder().encode(s);var h=await crypto.subtle.digest('SHA-256',e);return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0')}).join('')}
+async function checkPw(){var v=document.getElementById('pw-input').value;var h=await sha256(v);if(h===HASH){document.getElementById('lock-screen').classList.add('hidden');document.getElementById('report-content').style.display='block';sessionStorage.setItem('mco_auth','1')}else{document.getElementById('pw-error').textContent='パスワードが正しくありません';document.getElementById('pw-input').value='';document.getElementById('pw-input').focus()}}
+document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw()});
+(function(){if(sessionStorage.getItem('mco_auth')==='1'){document.getElementById('lock-screen').classList.add('hidden');document.getElementById('report-content').style.display='block'}})();
 </script>
 
 </body>
