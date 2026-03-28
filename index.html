@@ -55,9 +55,10 @@ body {
 
 /* Header */
 .header {
-  background: linear-gradient(135deg, #1a2332 0%, var(--navy) 50%, var(--navy-dark) 100%);
+  background: linear-gradient(135deg, #1a2332 0%, #1A2540 50%, #0F1829 100%);
   color: #fff;
-  padding: 48px 24px 40px;
+  border-bottom: 1px solid rgba(184,145,42,0.15);
+  padding: 48px 24px 36px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -67,47 +68,52 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 50%, rgba(184,145,42,0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 70% 50%, rgba(184,145,42,0.06) 0%, transparent 60%);
 }
 .header-content { position: relative; z-index: 1; }
-.header .label {
+.header-logo-row { display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px; }
+.ticker-badge {
   display: inline-block;
   background: rgba(184,145,42,0.15);
   border: 1px solid rgba(184,145,42,0.3);
-  border-radius: 6px;
-  padding: 4px 16px;
-  font-size: 12px;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 14px;
   color: var(--gold-light);
-  letter-spacing: 2px;
-  margin-bottom: 16px;
+  letter-spacing: 1px;
 }
 .header h1 {
   font-family: 'Noto Serif JP', serif;
-  font-size: 2rem;
+  font-size: 1.9rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  color: #fff;
+  margin-bottom: 4px;
   letter-spacing: 2px;
 }
-.header .subtitle {
-  color: rgba(255,255,255,0.7);
-  font-size: 0.95rem;
-}
-.header .period {
+.header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.92rem; }
+.header .date { color: rgba(255,255,255,0.5); font-size: 0.78rem; margin-top: 8px; }
+
+/* Footer */
+.footer {
+  background: var(--navy-dark);
   color: rgba(255,255,255,0.5);
-  font-size: 0.8rem;
-  margin-top: 8px;
+  padding: 28px 20px;
+  text-align: center;
 }
-.confidential {
+.footer-logo { display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px; }
+.footer-logo img { height:28px;opacity:0.85;flex-shrink:0; }
+.footer-logo span { color:var(--gold-light);font-family:'Inter',sans-serif;font-weight:600;font-size:0.85rem;line-height:1;letter-spacing:1.5px; }
+.footer-info { font-size: 0.72rem; margin-bottom: 10px; }
+.footer-confidential {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 3px;
+  border: 1px solid rgba(184,145,42,0.3);
   display: inline-block;
-  background: rgba(183,28,28,0.2);
-  border: 1px solid rgba(183,28,28,0.4);
+  padding: 4px 16px;
   border-radius: 4px;
-  padding: 2px 12px;
-  font-size: 10px;
-  color: #FF8A80;
-  letter-spacing: 2px;
-  margin-top: 12px;
 }
 
 /* Container */
@@ -560,13 +566,6 @@ body {
   color: var(--navy);
 }
 
-/* Footer */
-.footer {
-  text-align: center;
-  padding: 32px 20px;
-  color: var(--text-light);
-  font-size: 0.75rem;
-}
 
 /* Responsive */
 @media(max-width:768px){
@@ -579,6 +578,9 @@ body {
   .channel-grid { grid-template-columns: repeat(3, 1fr); }
   .overview-grid { grid-template-columns: 1fr; }
   .header h1 { font-size: 1.4rem; }
+  .header-logo-row { flex-direction:column;gap:8px; }
+  .ticker-badge { font-size:12px;padding:4px 12px; }
+  .footer-confidential { color:var(--gold)!important;border-color:var(--gold)!important; }
   .section { padding: 20px 16px; }
   .comp-table { font-size: 0.75rem; }
   .comp-table thead th, .comp-table tbody td { padding: 8px 10px; }
@@ -606,11 +608,12 @@ body {
 <!-- Header -->
 <div class="header">
   <div class="header-content">
-    <div class="label">MONTHLY FINANCIAL ANALYSIS</div>
-    <h1>M&Co. JAPAN PTY LTD 月次財務分析レポート</h1>
-    <div class="subtitle">Mr. Sushi Ashmore - 2026年2月度 損益分析・経営指標レビュー</div>
-    <div class="period">対象期間: 2026年2月1日〜2月28日 ｜ 分析日: 2026年3月28日</div>
-    <div class="confidential">CONFIDENTIAL - 社外秘</div>
+    <div class="header-logo-row">
+      <div class="ticker-badge">M&Co. JAPAN PTY LTD</div>
+    </div>
+    <h1>月次財務分析レポート</h1>
+    <div class="subtitle">Mr. Sushi Ashmore - 2026年2月度 前年同月比較分析</div>
+    <div class="date">分析日: 2026年3月28日 ｜ 作成: U&Iコンサルティング</div>
   </div>
 </div>
 
@@ -1586,10 +1589,18 @@ body {
 <!-- Footer -->
 </div><!-- container -->
 
+<!-- Footer -->
 <div class="footer">
-  M&Co. JAPAN PTY LTD 月次財務分析レポート ｜ 2026年2月度（前年同月比較）<br>
-  本資料は提供された損益計算書・貸借対照表に基づく分析であり、投資助言を目的としたものではありません。<br>
-  作成日: 2026年3月28日
+  <div class="footer-content">
+    <div class="footer-logo">
+      <img src="ui_logo_white.png" alt="U&I">
+      <span>Consulting</span>
+    </div>
+    <div class="footer-info">
+      M&Co. JAPAN PTY LTD 月次財務分析レポート ｜ 分析日: 2026年3月28日
+    </div>
+    <div class="footer-confidential">最重要機密（CONFIDENTIAL）</div>
+  </div>
 </div>
 
 <script>
